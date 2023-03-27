@@ -1,33 +1,57 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
+export const logCodeLine = (message: string) => {
+  const codeBlock = document.getElementById('code-block');
+
+  const codeLine = document.createElement('p');
+  codeLine.classList.add('code-block__line');
+  codeLine.innerText = message;
+  codeBlock?.append(codeLine);
+}
+
+export const clearCodeBlock = () => {
+  const codeBlock = document.getElementById('code-block');
+  while (codeBlock?.firstChild) {
+    codeBlock.removeChild(codeBlock.firstChild);
+  }
+}
+
+const startErrorAlgo = () => {
+  const arr: number[] = [];
+  console.log('1');
+  console.log(arr[0].kek());
+}
+
+window.onerror = (error) => {
+  logCodeLine(error.toString());
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [counter, setCounter] = useState(0);
+
+  const addLineOnBtnClick = () => {
+    logCodeLine(`testing line ${counter}`);
+    setCounter((prev) => prev + 1);
+  }
+
+  const clearCodeBlockOnClick = () => {
+    clearCodeBlock();
+  }
+
+  const startAlgo = () => {
+    startErrorAlgo();
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="app">
+      <button onClick={addLineOnBtnClick}>Add mock code line</button>
+      <button onClick={clearCodeBlockOnClick}>Clear console</button>
+      <button onClick={startAlgo}>Start algo</button>
+
+      <code id="code-block" className="code-block">
+        <p className="code-block__line">some code line </p>
+      </code>
     </div>
   )
 }
