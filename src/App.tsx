@@ -1,5 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { curry } from './tasks/21_carry';
 import './App.css'
+
+const sum = (a: number, b: number, c: number) => {
+  return a + b + c;
+}
+
+const curriedSum = curry(sum);
+
+const functionToRun = () => curriedSum(1)(2,3);
 
 export const logCodeLine = (message: string) => {
   const codeBlock = document.getElementById('code-block');
@@ -17,18 +26,16 @@ export const clearCodeBlock = () => {
   }
 }
 
-const startErrorAlgo = () => {
-  const arr: number[] = [];
-  console.log('1');
-  console.log(arr[0].kek());
-}
-
 window.onerror = (error) => {
   logCodeLine(error.toString());
 }
 
-function App() {
+const ConsoleControls = () => {
   const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    logCodeLine(functionToRun());
+  }, [])
 
   const addLineOnBtnClick = () => {
     logCodeLine(`testing line ${counter}`);
@@ -40,15 +47,25 @@ function App() {
   }
 
   const startAlgo = () => {
-    startErrorAlgo();
+    logCodeLine(functionToRun());
   }
-
   return (
-    <div className="app">
+  <>
+    <div className="console-controls">
       <button onClick={addLineOnBtnClick}>Add mock code line</button>
       <button onClick={clearCodeBlockOnClick}>Clear console</button>
       <button onClick={startAlgo}>Start algo</button>
+    </div>
+  </>);
+}
 
+function App() {
+
+
+  return (
+    <div className="app">
+      <h3>Training Playground</h3>
+      <ConsoleControls />
       <code id="code-block" className="code-block">
         <p className="code-block__line">some code line </p>
       </code>

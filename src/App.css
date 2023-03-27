@@ -25,6 +25,11 @@
   content: "> ";
 }
 
+.console-controls {
+  display: flex;
+  column-gap: 8px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
